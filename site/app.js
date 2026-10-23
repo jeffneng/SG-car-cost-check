@@ -78,8 +78,16 @@ function renderCompare() {
 
   $("compareBody").innerHTML = `<div class="tablewrap"><table class="cmp">
     <thead><tr><th></th>${cars.map((c) => `<th class="car"><select class="pick" data-slot="${cars.indexOf(c)}" aria-label="Model ${cars.indexOf(c) + 1}">${MODEL_OPTIONS(c.id)}</select>
+      <span class="name"><strong>${esc(c.make)}</strong> ${esc(c.model)}</span>
       <small>Cat ${c.cat} · ${esc(fuelName(c.fuel))} · ${c.cc ? c.cc.toLocaleString() + " cc · " : ""}${c.kw} kW · VES ${esc(c.ves_band)}</small></th>`).join("")}</tr></thead>
     <tbody>
+    ${sec("Dealer quote and estimated margin")}
+    ${row("Car cost (latest COE)", (c, x) => fmt(x.costLatest))}
+    <tr><td class="lbl">Dealer’s quote (incl. COE)</td>${cars.map((c) => `<td class="n"><input type="number" min="0" step="100" inputmode="numeric" data-quote="${esc(c.id)}" value="${state.quotes[c.id] || ""}" placeholder="$" aria-label="Dealer quote for ${esc(c.make)} ${esc(c.model)}"></td>`).join("")}</tr>
+    <tr class="total" id="marginLatest"></tr>
+    <tr class="total" id="marginPdf"></tr>
+    ${row("Distributor’s published price", (c) => fmt(c.dist_price))}
+    <tr id="roomRow"></tr>
     ${sec("Basic car cost (LTA)")}
     ${row("OMV", (c) => fmt(c.omv))}
     ${row("Excise duty + GST", (c) => fmt(c.duty))}
@@ -95,12 +103,6 @@ function renderCompare() {
     ${sec(`With COE in LTA ${esc(DATA.cars.month)} PDF`)}
     ${row("COE", (c) => fmt(c.coe_pdf))}
     ${row("Car cost", (c) => fmt(c.total_pdf), "total")}
-    ${sec("Dealer")}
-    ${row("Distributor’s published price", (c) => fmt(c.dist_price))}
-    <tr><td class="lbl">Dealer’s quote (incl. COE)</td>${cars.map((c) => `<td class="n"><input type="number" min="0" step="100" inputmode="numeric" data-quote="${esc(c.id)}" value="${state.quotes[c.id] || ""}" placeholder="enter $"></td>`).join("")}</tr>
-    <tr class="total" id="marginLatest"></tr>
-    <tr class="total" id="marginPdf"></tr>
-    <tr id="roomRow"></tr>
     </tbody></table></div>
     <p class="legend">Cost mix:<b style="background:var(--bar1)"></b>OMV<b style="background:var(--bar2)"></b>Excise+GST<b style="background:var(--bar3)"></b>ARF<b style="background:var(--bar4)"></b>COE</p>`;
   renderMargins();
@@ -113,7 +115,7 @@ function renderMargins() {
     const el = $(id); if (!el) return;
     el.innerHTML = `<td class="lbl">${label}</td>` + cars.map((c) => `<td class="n">${fn(c)}</td>`).join("");
   };
-  const pill = (m) => !m ? "–" : `<span class="pill ${m.amt >= 0 ? "good" : "bad"}">${fmt(m.amt)} · ${m.pct.toFixed(1)}%</span>`;
+  const pill = (m) => !m ? "–" : `<span class="pill ${m.amt >= 0 ? "good" : "bad"}">${fmt(m.amt)}<span class="pct"> · ${m.pct.toFixed(1)}%</span></span>`;
   set("marginLatest", "Est. margin vs latest-COE cost", (c) => pill(margin(state.quotes[c.id], costs(c).costLatest)));
   set("marginPdf", `Est. margin vs ${esc(DATA.cars.month)}-COE cost`, (c) => pill(margin(state.quotes[c.id], c.total_pdf)));
   set("roomRow", "Quote vs distributor’s price", (c) => {
