@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SG Car Cost Check</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<form id="gate">
+  <h1>SG Car Cost Check</h1>
+  <p class="sub">Private page. Enter the passcode to continue.</p>
+  <input id="pass" type="password" autocomplete="off" placeholder="Passcode" aria-label="Passcode" autofocus>
+  <button class="primary" type="submit">Unlock</button>
+  <p id="gateMsg" class="muted" role="status"></p>
+</form>
+<div id="app" hidden>
+<header>
+  <h1>SG Car Cost Check</h1>
+  <p class="sub">Estimate what a new car really costs (Cat A/B), then see how much room the dealer has.</p>
+  <div id="stamps" class="stamps"></div>
+  <div class="coe-box">
+    <strong>COE used for “latest” scenario</strong>
+    <label>Cat A $<input id="coeA" type="number" step="1" min="0"></label>
+    <label>Cat B $<input id="coeB" type="number" step="1" min="0"></label>
+    <button id="coeReset" type="button" class="link">reset to latest result</button>
+  </div>
+</header>
+
+<main>
+  <section id="compare" aria-live="polite">
+    <h2>Compare 3 models <button id="resetModels" type="button" class="link">reset to starting models</button></h2>
+    <div id="compareBody"></div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>How to read the margin.</strong> Margin = dealer quote − (basic cost + COE). Basic cost is LTA’s published figure and uses the <em>average</em> OMV of cars registered that month, not your exact car.
+  It excludes dealer commission, insurance, plates, road tax and all dealer overheads, so the margin is an <em>upper bound</em> on gross margin, not profit.
+  Dealer quote should be the on-the-road price including COE, before insurance and loan.</p>
+  <p class="muted">Source: LTA/OneMotoring Car Cost Update and COE results. For personal use; LTA’s terms bar commercial exploitation of the data.</p>
+</footer>
+</div>
+<script src="data.enc.js"></script>
+<script src="app.js"></script>
+<script src="gate.js"></script>
+</body>
+</html>
