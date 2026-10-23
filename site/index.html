@@ -7,14 +7,6 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<form id="gate">
-  <h1>SG Car Cost Check</h1>
-  <p class="sub">Private page. Enter the passcode to continue.</p>
-  <input id="pass" type="password" autocomplete="off" placeholder="Passcode" aria-label="Passcode" autofocus>
-  <button class="primary" type="submit">Unlock</button>
-  <p id="gateMsg" class="muted" role="status"></p>
-</form>
-<div id="app" hidden>
 <header>
   <h1>SG Car Cost Check</h1>
   <p class="sub">Estimate what a new car really costs (Cat A/B), then see how much room the dealer has.</p>
@@ -40,9 +32,7 @@
   Dealer quote should be the on-the-road price including COE, before insurance and loan.</p>
   <p class="muted">Source: LTA/OneMotoring Car Cost Update and COE results. For personal use; LTA’s terms bar commercial exploitation of the data.</p>
 </footer>
-</div>
-<script src="data.enc.js"></script>
+<script src="data.js"></script>
 <script src="app.js"></script>
-<script src="gate.js"></script>
 </body>
 </html>

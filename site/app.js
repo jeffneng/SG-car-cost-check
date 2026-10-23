@@ -138,3 +138,6 @@ $("compareBody").addEventListener("input", (e) => {
 
 renderHeader(); renderCompare();
 }
+
+try { localStorage.removeItem("sgcarcost.pass"); } catch (e) {}  // leftover from the removed passcode lock
+start({ cars: window.CARS_DATA, coe: window.COE_DATA });
